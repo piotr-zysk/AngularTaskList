@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { RouterModule } from '@angular/router';
+
 import { WelcomeComponent } from './home/welcome.component';
 import { TaskModule } from './task/task.module';
 

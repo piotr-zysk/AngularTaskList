@@ -31,9 +31,9 @@
           <tr *ngFor='let task of tasks'>
             <td>{{ task.id }}</td>
             <td>
-              <!-- <a [routerLink]="['/tasks', task.id]"> -->
+              <a [routerLink]="['/tasks', task.id]"> 
                 {{ task.name }}
-              <!-- </a> -->
+              </a>
             </td>
             <td>{{ task.done }}</td>
           </tr>
