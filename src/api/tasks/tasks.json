@@ -2,13 +2,13 @@
     {
         "id": 1,
         "name": "apka",
-        "description": "Napisać prostą aplikację w Angularze",
-        "done": 0
+        "description": "Napisac prosta aplikacje w Angularze",
+        "done": false
     },
     {
         "id": 1,
         "name": "refresh",
-        "description": "Powtórzyć teorię.",
+        "description": "Powtorzyc teorie.",
         "done": 0
-    },
+    }
 ]
