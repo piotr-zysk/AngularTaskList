@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { TaskDetailsComponent } from './task-details.component';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [TaskListComponent, TaskDetailsComponent],
@@ -12,7 +13,8 @@ import { FormsModule } from '@angular/forms';
     CommonModule,
     HttpClientModule,
     RouterModule,
-    FormsModule
+    FormsModule,
+    SharedModule
   ]
 })
 export class TaskModule { }
