@@ -3,7 +3,7 @@
     {{pageTitle}}
   </div>
   <div class='card-body'>
-    <!--
+    
     <div class='row'>
       <div class='col-md-2'>Filter by:</div>
       <div class='col-md-4'>
@@ -15,7 +15,7 @@
         <h4>Filtered by: {{listFilter}} </h4>
       </div>
     </div>
-    -->
+    
     <div class='table-responsive'>
       <table class='table' *ngIf='tasks && tasks.length'>
         <thead>
@@ -28,7 +28,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor='let task of tasks'>
+          <tr *ngFor='let task of filteredTasks'>
             <td>{{ task.id }}</td>
             <td>
               <a [routerLink]="['/tasks', task.id]"> 
