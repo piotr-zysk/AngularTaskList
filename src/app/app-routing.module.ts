@@ -3,13 +3,14 @@ import { Routes, RouterModule } from '@angular/router';
 import { TaskListComponent } from './task/task-list.component';
 import { WelcomeComponent } from './home/welcome.component';
 import { TaskDetailsComponent } from './task/task-details.component';
+import { TaskDetailsGuard } from './task/task-details.guard';
 
 const routes: Routes = [
   { path: 'tasklist', component: TaskListComponent },
-  { path: 'tasks/:id', component: TaskDetailsComponent },
+  { path: 'tasks/:id', canActivate: [TaskDetailsGuard], component: TaskDetailsComponent },
   { path: 'welcome', component: WelcomeComponent },
-  { path: '', redirectTo: 'welcome', pathMatch: 'full' }
-  //,{ path: '**', redirectTo: 'welcome', pathMatch: 'full' }
+  { path: '', redirectTo: 'welcome', pathMatch: 'full' },
+  { path: '**', redirectTo: 'welcome', pathMatch: 'full' }
 ];
 
 @NgModule({
