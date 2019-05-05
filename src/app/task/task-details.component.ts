@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ITask } from './task';
 
 @Component({
-  selector: 'app-task-details',
+  selector: 'tl-task-details',
   templateUrl: './task-details.component.html',
   styleUrls: ['./task-details.component.css']
 })

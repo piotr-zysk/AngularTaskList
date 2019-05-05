@@ -35,7 +35,9 @@
                 {{ task.name }}
               </a>
             </td>
-            <td>{{ task.done }}</td>
+            <td>{{ task.done }}
+              <tl-status-display></tl-status-display>
+            </td>
           </tr>
         </tbody>
       </table>
