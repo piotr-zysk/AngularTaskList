@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'tl-status-display',
@@ -6,10 +6,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./status-display.component.css']
 })
 export class StatusDisplayComponent implements OnInit {
+  @Input() status: boolean;
+  message: string;
 
   constructor() { }
 
   ngOnInit() {
+    if (this.status) this.message='Done';
+    else this.message='Not Done';
   }
 
 }
