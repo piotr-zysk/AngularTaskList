@@ -4,15 +4,16 @@ import { Observable, throwError } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, tap } from 'rxjs/operators';
 import { ITask } from './task';
+import { SettingsService } from '../shared/settings.service';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class TaskService {
-  private taskUrl = 'api/tasks/tasks.json';
+  private taskUrl = this.settings.webserverAddress;  //'api/tasks/tasks.json';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private settings: SettingsService) { }
 
   getTasks(): Observable<ITask[]> {
     return this.http.get<ITask[]>(this.taskUrl).pipe(tap(data=>console.log('All: ' + JSON.stringify(data))),catchError(this.handleError));
