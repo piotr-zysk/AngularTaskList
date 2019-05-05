@@ -27,4 +27,9 @@ export class TaskDetailsComponent implements OnInit {
 
   }
 
+  onBack(): void
+  {
+    this.router.navigate(['/tasklist']);
+  }
+
 }
