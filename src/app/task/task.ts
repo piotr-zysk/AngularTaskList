@@ -1,6 +1,6 @@
 export interface ITask {
     id: number;
     name: string;
-    decription: string;
+    description: string;
     done: boolean;
 }

@@ -1,3 +1,21 @@
-<p>
-  task-details works!
-</p>
+
+<div class="jumbotron">
+<h1>Task: {{task.id}}</h1>
+</div>
+
+<form>
+  <div class="form-group">
+    <label for="inputTaskName">Task Name</label>
+    <input type="text" class="form-control" id="inputTaskName" placeholder="Enter name of task" value={{task.name}}>    
+  </div>
+
+  <div class="form-group">
+    <label for="inputTaskDescription">Description</label>
+    <input type="text" class="form-control" id="inputTaskDescription" placeholder="Enter description" value={{task.description}}>
+  </div>
+  <div class="form-group form-check">
+    <input type="checkbox" class="form-check-input" id="scheckboxDone">
+    <label class="form-check-label" for="scheckboxDone">Done</label>
+  </div>
+  <button type="submit" class="btn btn-primary">Save</button>
+</form>
