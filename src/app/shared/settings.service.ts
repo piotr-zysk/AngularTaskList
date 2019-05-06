@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class SettingsService {
-  webserverAddress: string = 'api/tasks/tasks.json';
+  webserverAddress: string = 'http://localhost/tasklist/api'; //'api/tasks/tasks.json';
 
   constructor() { }
 }

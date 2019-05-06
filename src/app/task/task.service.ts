@@ -16,13 +16,25 @@ export class TaskService {
   constructor(private http: HttpClient, private settings: SettingsService) { }
 
   getTasks(): Observable<ITask[]> {
-    return this.http.get<ITask[]>(this.taskUrl).pipe(tap(data=>console.log('All: ' + JSON.stringify(data))),catchError(this.handleError));
+    return this.http.get<ITask[]>(this.taskUrl).pipe(tap(data => console.log('All: ' + JSON.stringify(data))), catchError(this.handleError));
+  }
 
 
+  getTask(id: number): Observable<ITask> {
+    return this.http.get<ITask>(this.taskUrl+'/'+id).pipe(tap(data => console.log(id + ': ' + JSON.stringify(data))), catchError(this.handleError));
+
+    /*
+    {
+      "id": id,
+      "name": "dupa"+id,
+      "description": "blabla",
+      "done": false
+    }
+    */
   }
 
   private handleError(err: HttpErrorResponse) {
-        // in a real world app, we may send the server to some remote logging infrastructure
+    // in a real world app, we may send the server to some remote logging infrastructure
     // instead of just logging it to the console
     let errorMessage = '';
     if (err.error instanceof ErrorEvent) {

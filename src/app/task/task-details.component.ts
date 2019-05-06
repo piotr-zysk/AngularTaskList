@@ -18,17 +18,25 @@ export class TaskDetailsComponent implements OnInit {
   ngOnInit() {
     let id = +this.route.snapshot.paramMap.get('id');
 
-    this.task = {
+    this.taskService.getTask(id).subscribe(
+      task => {
+        this.task = task;
+      }
+    )
+
+
+    /*
+    {
       'id': id,
       'name': 'test',
       'description': 'test decription',
       'done': false
     }
+    */
 
   }
 
-  onBack(): void
-  {
+  onBack(): void {
     this.router.navigate(['/tasklist']);
   }
 
