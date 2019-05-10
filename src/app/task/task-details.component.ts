@@ -73,9 +73,10 @@ export class TaskDetailsComponent implements OnInit {
   }
 
   deleteTask(value: number): void {
-    this.taskService.deleteTask(value).subscribe(() => this.router.navigate(['/tasklist']));
+    if (window.confirm('Are you sure you want to delete this task?')) {
+      this.taskService.deleteTask(value).subscribe(() => this.router.navigate(['/tasklist']));
   }
-
+}
 
 
 }
