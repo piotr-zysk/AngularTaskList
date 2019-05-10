@@ -4,6 +4,8 @@ import { TaskService } from './task.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ITask } from './task';
 import { nameDescriptionValidator } from './name-description.directive';
+import { Observable } from 'rxjs';
+import { DialogService } from '../shared/dialog.service';
 
 
 @Component({
@@ -18,7 +20,11 @@ export class TaskDetailsComponent implements OnInit {
   task: ITask;
   title: string;
 
-  constructor(private taskService: TaskService, private router: Router, private route: ActivatedRoute) { }
+  constructor(
+    private taskService: TaskService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private dialogService: DialogService) { }
 
   ngOnInit() {
     let id = +this.route.snapshot.paramMap.get('id');
@@ -76,6 +82,16 @@ export class TaskDetailsComponent implements OnInit {
     if (window.confirm('Are you sure you want to delete this task?')) {
       this.taskService.deleteTask(value).subscribe(() => this.router.navigate(['/tasklist']));
   }
+}
+
+canDeactivate(): Observable<boolean> | boolean {
+  // Allow synchronous navigation (`true`) if no crisis or the crisis is unchanged
+  if (!this.taskForm.valid || !this.taskForm.dirty) {
+    return true;
+  }
+  // Otherwise ask the user with the dialog service and return its
+  // observable which resolves to true or false when the user decides
+  return this.dialogService.confirm('Discard changes?');
 }
 
 
