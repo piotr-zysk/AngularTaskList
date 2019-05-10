@@ -7,19 +7,18 @@ import { Observable } from 'rxjs';
 })
 export class TaskDetailsGuard implements CanActivate {
 
-  constructor(private router:Router) {}
+  constructor(private router: Router) { }
 
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-      let id = +next.url[1].path;
-      if (isNaN(id) || id<0 ||id>11)
-      {
-        alert("Invalid task Id: "+id);
-        this.router.navigate(['/tasklist']);
-        return false;
-      }
+    let id = +next.url[1].path;
+    if (isNaN(id) || id < 0) {
+      alert("Invalid task Id: " + id);
+      this.router.navigate(['/tasklist']);
+      return false;
+    }
     return true;
   }
-  
+
 }

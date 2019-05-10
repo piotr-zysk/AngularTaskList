@@ -69,6 +69,9 @@ export class TaskDetailsComponent implements OnInit {
     this.taskService.updateTask(value).subscribe(() => this.router.navigate(['/tasklist']));
   }
 
-  
-  
+  deleteTask(value: number): void {
+    this.taskService.deleteTask(value).subscribe(() => this.router.navigate(['/tasklist']));
+  }
+
+
 }

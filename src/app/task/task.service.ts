@@ -16,7 +16,8 @@ export class TaskService {
   constructor(private http: HttpClient, private settings: SettingsService) { }
 
   getTasks(): Observable<ITask[]> {
-    return this.http.get<ITask[]>(this.taskUrl).pipe(tap(data => console.log('All: ' + JSON.stringify(data))), catchError(this.handleError));
+    //return this.http.get<ITask[]>(this.taskUrl).pipe(tap(data => console.log('All: ' + JSON.stringify(data))), catchError(this.handleError));
+    return this.http.get<ITask[]>(this.taskUrl).pipe(catchError(this.handleError));
   }
 
 
@@ -27,18 +28,23 @@ export class TaskService {
   updateTask(task: ITask) {
 
     const options = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
-    if(task.id>0)
-    return this.http.put<ITask>(this.taskUrl, task, options)
-      .pipe(tap(data => console.log(data)), catchError(this.handleError));
-    else
-    {
-      task.id=undefined;
+    if (task.id > 0)
+      return this.http.put<ITask>(this.taskUrl, task, options)
+        .pipe(tap(data => console.log(data)), catchError(this.handleError));
+    else {
+      task.id = undefined;
       return this.http.post<ITask>(this.taskUrl, task, options)
-      .pipe(tap(data => console.log(data)), catchError(this.handleError));
+        .pipe(tap(data => console.log(data)), catchError(this.handleError));
     }
-
-
   }
+
+
+  deleteTask(id: number) {
+
+    return this.http.delete(this.taskUrl + '/' + id)
+      .pipe(tap(data => console.log(data)), catchError(this.handleError));
+  }
+
 
   private handleError(err: HttpErrorResponse) {
     // in a real world app, we may send the server to some remote logging infrastructure
