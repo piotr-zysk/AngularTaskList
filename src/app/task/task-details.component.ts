@@ -55,8 +55,7 @@ export class TaskDetailsComponent implements OnInit {
     this.router.navigate(['/tasklist']);
   }
 
-  saveTask(value: any): void {
-    console.log('saved:');
-    console.log(value);
+  saveTask(value: ITask): void {
+    this.taskService.updateTask(value).subscribe(()=>this.router.navigate(['/tasklist']));
   }
 }

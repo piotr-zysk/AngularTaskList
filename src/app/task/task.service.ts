@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 //import { HttpClient, HttpErrorResponse } from 'selenium-webdriver/http';
 import { Observable, throwError } from 'rxjs';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { catchError, tap } from 'rxjs/operators';
 import { ITask } from './task';
 import { SettingsService } from '../shared/settings.service';
@@ -21,16 +21,15 @@ export class TaskService {
 
 
   getTask(id: number): Observable<ITask> {
-    //return this.http.get<ITask>(this.taskUrl+'/'+id).pipe(tap(data => console.log(id + ': ' + JSON.stringify(data))), catchError(this.handleError));
-    return this.http.get<ITask>(this.taskUrl+'/'+id).pipe(catchError(this.handleError));
-    /*
-    {
-      "id": id,
-      "name": "dupa"+id,
-      "description": "blabla",
-      "done": false
-    }
-    */
+    return this.http.get<ITask>(this.taskUrl + '/' + id).pipe(catchError(this.handleError));
+  }
+
+  updateTask(task: ITask) {
+
+    const options = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return this.http.put<ITask>(this.taskUrl, task, options)
+      .pipe(tap(data => console.log(data)), catchError(this.handleError));
+
   }
 
   private handleError(err: HttpErrorResponse) {
