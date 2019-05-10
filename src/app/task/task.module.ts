@@ -8,8 +8,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 
 
+
 @NgModule({
-  declarations: [TaskListComponent, TaskDetailsComponent],
+  declarations: [
+    TaskListComponent,
+    TaskDetailsComponent,
+  ],
   imports: [
     CommonModule,
     HttpClientModule,

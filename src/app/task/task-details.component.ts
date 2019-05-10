@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { TaskService } from './task.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ITask } from './task';
+import { nameDescriptionValidator } from './name-description.directive';
 
 
 @Component({
@@ -58,7 +59,7 @@ export class TaskDetailsComponent implements OnInit {
       name: name,
       description: description,
       done: done
-    });
+    },{validators: nameDescriptionValidator});
   }
 
   onBack(): void {
@@ -74,6 +75,7 @@ export class TaskDetailsComponent implements OnInit {
   deleteTask(value: number): void {
     this.taskService.deleteTask(value).subscribe(() => this.router.navigate(['/tasklist']));
   }
+
 
 
 }
