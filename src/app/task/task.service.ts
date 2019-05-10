@@ -21,8 +21,8 @@ export class TaskService {
 
 
   getTask(id: number): Observable<ITask> {
-    return this.http.get<ITask>(this.taskUrl+'/'+id).pipe(tap(data => console.log(id + ': ' + JSON.stringify(data))), catchError(this.handleError));
-
+    //return this.http.get<ITask>(this.taskUrl+'/'+id).pipe(tap(data => console.log(id + ': ' + JSON.stringify(data))), catchError(this.handleError));
+    return this.http.get<ITask>(this.taskUrl+'/'+id).pipe(catchError(this.handleError));
     /*
     {
       "id": id,
