@@ -20,6 +20,8 @@ export class TaskDetailsComponent implements OnInit {
   task: ITask;
   title: string;
 
+  formSaved: boolean = false;
+
   constructor(
     private taskService: TaskService,
     private router: Router,
@@ -60,12 +62,13 @@ export class TaskDetailsComponent implements OnInit {
     let done = new FormControl(this.task.done);
 
 
+
     this.taskForm = new FormGroup({
       id: id,
       name: name,
       description: description,
       done: done
-    },{validators: nameDescriptionValidator});
+    }, { validators: nameDescriptionValidator });
   }
 
   onBack(): void {
@@ -74,25 +77,27 @@ export class TaskDetailsComponent implements OnInit {
 
   saveTask(value: ITask): void {
     if (this.taskForm.valid) {
-      this.taskService.updateTask(value).subscribe(() => this.router.navigate(['/tasklist']));
+      this.taskService.updateTask(value).subscribe(() => {this.formSaved=true; this.router.navigate(['/tasklist']); });
     }
   }
 
   deleteTask(value: number): void {
     if (window.confirm('Are you sure you want to delete this task?')) {
       this.taskService.deleteTask(value).subscribe(() => this.router.navigate(['/tasklist']));
+    }
   }
-}
 
-canDeactivate(): Observable<boolean> | boolean {
-  // Allow synchronous navigation (`true`) if no crisis or the crisis is unchanged
-  if (!this.taskForm.valid || !this.taskForm.dirty) {
-    return true;
+  canDeactivate(): Observable<boolean> | boolean {
+    // Allow synchronous navigation (`true`) if no crisis or the crisis is unchanged
+    if (((this.task.name === this.taskForm.controls.name.value)
+      && (this.task.description === this.taskForm.controls.description.value))
+      || this.formSaved) {
+      return true;
+    }
+    // Otherwise ask the user with the dialog service and return its
+    // observable which resolves to true or false when the user decides
+    return this.dialogService.confirm('Discard changes?');
   }
-  // Otherwise ask the user with the dialog service and return its
-  // observable which resolves to true or false when the user decides
-  return this.dialogService.confirm('Discard changes?');
-}
 
 
 }
