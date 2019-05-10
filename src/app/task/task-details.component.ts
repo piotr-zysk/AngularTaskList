@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms'
+import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { TaskService } from './task.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ITask } from './task';
@@ -28,7 +28,7 @@ export class TaskDetailsComponent implements OnInit {
       this.initForm(task);
     }
     else {
-      this.title = 'Task: '+id;
+      this.title = 'Task: ' + id;
       this.taskService.getTask(id).subscribe(
         task => this.initForm(task)
       );
@@ -48,8 +48,8 @@ export class TaskDetailsComponent implements OnInit {
 
     this.task = task;
     let id = new FormControl(this.task.id)
-    let name = new FormControl(this.task.name);
-    let description = new FormControl(this.task.description);
+    let name = new FormControl(this.task.name, Validators.required);
+    let description = new FormControl(this.task.description, Validators.required);
     let done = new FormControl(this.task.done);
 
 
@@ -66,7 +66,9 @@ export class TaskDetailsComponent implements OnInit {
   }
 
   saveTask(value: ITask): void {
-    this.taskService.updateTask(value).subscribe(() => this.router.navigate(['/tasklist']));
+    if (this.taskForm.valid) {
+      this.taskService.updateTask(value).subscribe(() => this.router.navigate(['/tasklist']));
+    }
   }
 
   deleteTask(value: number): void {
