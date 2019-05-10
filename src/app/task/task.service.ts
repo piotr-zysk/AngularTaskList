@@ -27,8 +27,16 @@ export class TaskService {
   updateTask(task: ITask) {
 
     const options = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    if(task.id>0)
     return this.http.put<ITask>(this.taskUrl, task, options)
       .pipe(tap(data => console.log(data)), catchError(this.handleError));
+    else
+    {
+      task.id=undefined;
+      return this.http.post<ITask>(this.taskUrl, task, options)
+      .pipe(tap(data => console.log(data)), catchError(this.handleError));
+    }
+
 
   }
 

@@ -1,5 +1,5 @@
 <div class="jumbotron">
-  <h1>Task: {{id}}</h1>
+  <h1>{{this.title}}</h1>
 </div>
 <form *ngIf='this.taskForm' [formGroup]="taskForm" (ngSubmit)="saveTask(taskForm.value)" autocomplete="off" novalidate>
   <div class="form-group">

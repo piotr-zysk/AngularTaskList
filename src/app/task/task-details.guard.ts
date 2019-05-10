@@ -13,7 +13,7 @@ export class TaskDetailsGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
       let id = +next.url[1].path;
-      if (isNaN(id) || id<1 ||id>3)
+      if (isNaN(id) || id<0 ||id>11)
       {
         alert("Invalid task Id: "+id);
         this.router.navigate(['/tasklist']);

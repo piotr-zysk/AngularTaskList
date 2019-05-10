@@ -15,31 +15,24 @@ export class TaskDetailsComponent implements OnInit {
 
   pageTitle: string = 'Task Details';
   task: ITask;
+  title: string;
 
   constructor(private taskService: TaskService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
     let id = +this.route.snapshot.paramMap.get('id');
 
-
-    this.taskService.getTask(id).subscribe(
-      task => {
-        this.task = task;
-        let id = new FormControl(this.task.id);
-        let name = new FormControl(this.task.name);
-        let description = new FormControl(this.task.description);
-        let done = new FormControl(this.task.done);
-
-        this.taskForm = new FormGroup({
-          id: id,
-          name: name,
-          description: description,
-          done: done
-        });
-
-      }
-    );
-
+    if (id == 0) {
+      this.title = 'New Task';
+      let task: ITask = { id: 0, name: '', description: '', done: false };
+      this.initForm(task);
+    }
+    else {
+      this.title = 'Task: '+id;
+      this.taskService.getTask(id).subscribe(
+        task => this.initForm(task)
+      );
+    }
     /*
     {
       'id': id,
@@ -51,11 +44,31 @@ export class TaskDetailsComponent implements OnInit {
 
   }
 
+  private initForm(task: ITask): void {
+
+    this.task = task;
+    let id = new FormControl(this.task.id)
+    let name = new FormControl(this.task.name);
+    let description = new FormControl(this.task.description);
+    let done = new FormControl(this.task.done);
+
+
+    this.taskForm = new FormGroup({
+      id: id,
+      name: name,
+      description: description,
+      done: done
+    });
+  }
+
   onBack(): void {
     this.router.navigate(['/tasklist']);
   }
 
   saveTask(value: ITask): void {
-    this.taskService.updateTask(value).subscribe(()=>this.router.navigate(['/tasklist']));
+    this.taskService.updateTask(value).subscribe(() => this.router.navigate(['/tasklist']));
   }
+
+  
+  
 }
