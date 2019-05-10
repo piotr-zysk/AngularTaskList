@@ -1,3 +1,7 @@
 .btn {
     float: right;
 }
+
+.task-item {
+    cursor: pointer;
+}
