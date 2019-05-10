@@ -90,7 +90,8 @@ export class TaskDetailsComponent implements OnInit {
   canDeactivate(): Observable<boolean> | boolean {
     // Allow synchronous navigation (`true`) if no crisis or the crisis is unchanged
     if (((this.task.name === this.taskForm.controls.name.value)
-      && (this.task.description === this.taskForm.controls.description.value))
+      && (this.task.description === this.taskForm.controls.description.value)
+      && (this.task.done === this.taskForm.controls.done.value))
       || this.formSaved) {
       return true;
     }

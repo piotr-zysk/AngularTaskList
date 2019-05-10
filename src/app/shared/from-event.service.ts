@@ -1,9 +1,20 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class FromEventService {
+export function fromEvent(target, eventName) {
+    return new Observable((observer) => {
+      const handler = (e) => observer.next(e);
 
-  constructor() { }
-}
+      // Add the event handler to the target
+      target.addEventListener(eventName, handler);
+
+      return () => {
+        // Detach the event handler from the target
+        target.removeEventListener(eventName, handler);
+      };
+    });
+  }
+

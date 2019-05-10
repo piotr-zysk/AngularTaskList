@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TaskService } from './task.service';
 import { ITask } from './task';
+import { fromEvent } from '../shared/from-event.service';
 
 
 @Component({
@@ -40,7 +41,18 @@ export class TaskListComponent implements OnInit {
         this.tasks = tasks;
         this.filteredTasks = this.tasks;
       }
-    )
+    );
+
+    const ESC_KEY = 27;
+    const filterInput = document.getElementById('filterInput') as HTMLInputElement;
+
+    const subscription = fromEvent(filterInput, 'keydown')
+      .subscribe((e: KeyboardEvent) => {
+        if (e.keyCode === ESC_KEY) {
+          //filterInput.value = '';
+          this.listFilter="";
+      }
+    });
   }
 
 }

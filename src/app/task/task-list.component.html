@@ -7,7 +7,7 @@
     <div class='row'>
       <div class='col-md-2'>Filter by:</div>
       <div class='col-md-10'>
-        <input type='text' [(ngModel)]='listFilter' />
+        <input id="filterInput" type='text' [(ngModel)]='listFilter' />
         <button type="submit" class="btn btn-primary" [routerLink]="['/tasks', 0]">New task</button>
       </div>
     </div>
