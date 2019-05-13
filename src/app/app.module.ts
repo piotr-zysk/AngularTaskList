@@ -7,6 +7,8 @@ import { AppComponent } from './app.component';
 import { WelcomeComponent } from './home/welcome.component';
 import { TaskModule } from './task/task.module';
 
+import { StoreModule } from '@ngrx/store';
+
 
 @NgModule({
   declarations: [
@@ -16,7 +18,8 @@ import { TaskModule } from './task/task.module';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    TaskModule
+    TaskModule,
+    StoreModule.forRoot({})
   ],
   providers: [],
   bootstrap: [AppComponent]
