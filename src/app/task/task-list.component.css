@@ -5,3 +5,6 @@
 .task-item {
     cursor: pointer;
 }
+#descCheckbox {
+    margin: 0 10px 0 30px;
+}

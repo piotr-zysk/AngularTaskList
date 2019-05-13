@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root'
-})
 export function fromEvent(target, eventName) {
     return new Observable((observer) => {
       const handler = (e) => observer.next(e);

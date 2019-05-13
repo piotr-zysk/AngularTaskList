@@ -12,11 +12,12 @@ import { fromEvent } from '../shared/from-event.service';
 export class TaskListComponent implements OnInit {
   tasks: ITask[] = [];
   filteredTasks: ITask[] = [];
-  pageTitle: string = "Task List";
+  pageTitle = 'Task List';
 
+  descriptionsVisible = false;
 
+  _listFilter = '';
 
-  _listFilter: string = "";
   get listFilter(): string {
     return this._listFilter;
   }
@@ -50,9 +51,9 @@ export class TaskListComponent implements OnInit {
       .subscribe((e: KeyboardEvent) => {
         if (e.keyCode === ESC_KEY) {
           //filterInput.value = '';
-          this.listFilter="";
-      }
-    });
+          this.listFilter = "";
+        }
+      });
   }
 
 }
