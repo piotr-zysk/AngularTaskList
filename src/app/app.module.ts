@@ -8,6 +8,8 @@ import { WelcomeComponent } from './home/welcome.component';
 import { TaskModule } from './task/task.module';
 
 import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from 'src/environments/environment.prod';
 
 
 @NgModule({
@@ -19,7 +21,12 @@ import { StoreModule } from '@ngrx/store';
     BrowserModule,
     AppRoutingModule,
     TaskModule,
-    StoreModule.forRoot({})
+    StoreModule.forRoot({}),
+    StoreDevtoolsModule.instrument({
+      name: 'TaskList',
+      maxAge: 20,
+      logOnly: environment.production
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]
