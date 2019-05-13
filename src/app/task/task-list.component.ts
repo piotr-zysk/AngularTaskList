@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TaskService } from './task.service';
 import { ITask } from './task';
 import { fromEvent } from '../shared/from-event.service';
+import { Store, select } from '@ngrx/store';
 
 
 @Component({
@@ -14,7 +15,7 @@ export class TaskListComponent implements OnInit {
   filteredTasks: ITask[] = [];
   pageTitle = 'Task List';
 
-  descriptionsVisible = false;
+  descriptionsVisible: boolean;
 
   _listFilter = '';
 
@@ -32,8 +33,16 @@ export class TaskListComponent implements OnInit {
       task.name.toLocaleLowerCase().indexOf(filterBy) !== -1);
   }
 
-  constructor(private taskService: TaskService) {
+  constructor(private taskService: TaskService,
+    private store: Store<any>) {
     this.listFilter = '';
+  }
+
+  toggleDescriptionVisibility(value: boolean): void {
+    this.store.dispatch({
+      type: 'TOGGLE_DESCRIPTION_VISIBILITY',
+      payload: value
+    })
   }
 
   ngOnInit(): void {
@@ -41,6 +50,14 @@ export class TaskListComponent implements OnInit {
       tasks => {
         this.tasks = tasks;
         this.filteredTasks = this.tasks;
+      }
+    );
+
+    this.store.pipe(select('tasks')).subscribe(
+      tasks => {
+        if (tasks) {
+          this.descriptionsVisible = tasks.descriptionsVisible;
+        }
       }
     );
 
