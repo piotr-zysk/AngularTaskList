@@ -8,7 +8,7 @@
       <div class='col-md-2'>Filter by:</div>
       <div class='col-md-10'>
         <input id="filterInput" type='text' [(ngModel)]='listFilter' />
-        <input id="descCheckbox" type="checkbox" [checked]='descriptionsVisible' (change)='toggleDescriptionVisibility($event.target.checked)' /><label for="descCheckbox">show descriptions</label>
+        <input id="descCheckbox" type="checkbox" [checked]='descriptionVisible' (change)='toggleDescriptionVisibility($event.target.checked)' /><label for="descCheckbox">show descriptions</label>
         <button type="submit" class="btn btn-primary" [routerLink]="['/tasks', 0]">New task</button>
       </div>
     </div>
@@ -34,7 +34,7 @@
             <td>{{ task.id }}</td>
             <td>
               {{ task.name }}
-              <div *ngIf='descriptionsVisible'><i>{{ task.description }}</i></div>
+              <div *ngIf='descriptionVisible'><i>{{ task.description }}</i></div>
             </td>
             <td>{{ task.done }}
               <tl-status-display [status]='task.done'></tl-status-display>

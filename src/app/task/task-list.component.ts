@@ -3,6 +3,7 @@ import { TaskService } from './task.service';
 import { ITask } from './task';
 import { fromEvent } from '../shared/from-event.service';
 import { Store, select } from '@ngrx/store';
+import * as fromTask from '../state/task.reducer';
 
 
 @Component({
@@ -15,9 +16,14 @@ export class TaskListComponent implements OnInit {
   filteredTasks: ITask[] = [];
   pageTitle = 'Task List';
 
-  descriptionsVisible: boolean;
+  descriptionVisible: boolean;
 
   _listFilter = '';
+
+  constructor(private taskService: TaskService,
+              private store: Store<fromTask.IState>) {
+    this.listFilter = '';
+  }
 
   get listFilter(): string {
     return this._listFilter;
@@ -33,10 +39,6 @@ export class TaskListComponent implements OnInit {
       task.name.toLocaleLowerCase().indexOf(filterBy) !== -1);
   }
 
-  constructor(private taskService: TaskService,
-    private store: Store<any>) {
-    this.listFilter = '';
-  }
 
   toggleDescriptionVisibility(value: boolean): void {
     this.store.dispatch({
@@ -53,12 +55,8 @@ export class TaskListComponent implements OnInit {
       }
     );
 
-    this.store.pipe(select('tasks')).subscribe(
-      tasks => {
-        if (tasks) {
-          this.descriptionsVisible = tasks.descriptionsVisible;
-        }
-      }
+    this.store.pipe(select(fromTask.getDescriptionVisible)).subscribe(
+      descriptionVisible => this.descriptionVisible = descriptionVisible
     );
 
     const ESC_KEY = 27;

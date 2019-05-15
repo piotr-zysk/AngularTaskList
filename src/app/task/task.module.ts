@@ -7,7 +7,7 @@ import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 import { StoreModule } from '@ngrx/store';
-import { reducer } from './task.reducer';
+import { reducer } from '../state/task.reducer';
 
 
 
