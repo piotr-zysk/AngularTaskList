@@ -4,5 +4,5 @@ export const nameDescriptionValidator: ValidatorFn = (control: FormGroup): Valid
     const name = control.get('name');
     const description = control.get('description');
 
-    return name && description && name.value === description.value ? { 'nameDescription': true } : null;
+    return name && description && name.value === description.value ? { nameDescription: true } : null;
   };

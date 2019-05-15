@@ -4,6 +4,7 @@ import { ITask } from './task';
 import { fromEvent } from '../shared/from-event.service';
 import { Store, select } from '@ngrx/store';
 import * as fromTask from '../task';
+import * as taskActions from './state/task.actions';
 
 
 @Component({
@@ -41,10 +42,7 @@ export class TaskListComponent implements OnInit {
 
 
   toggleDescriptionVisibility(value: boolean): void {
-    this.store.dispatch({
-      type: 'TOGGLE_DESCRIPTION_VISIBILITY',
-      payload: value
-    })
+    this.store.dispatch(new taskActions.ToggleDescriptionVisibility(value));
   }
 
   ngOnInit(): void {
@@ -64,9 +62,10 @@ export class TaskListComponent implements OnInit {
 
     const subscription = fromEvent(filterInput, 'keydown')
       .subscribe((e: KeyboardEvent) => {
+// tslint:disable-next-line: deprecation
         if (e.keyCode === ESC_KEY) {
-          //filterInput.value = '';
-          this.listFilter = "";
+          // filterInput.value = '';
+          this.listFilter = '';
         }
       });
   }
