@@ -3,7 +3,7 @@ import { TaskService } from './task.service';
 import { ITask } from './task';
 import { fromEvent } from '../shared/from-event.service';
 import { Store, select } from '@ngrx/store';
-import * as fromTask from '../state/task.reducer';
+import * as fromTask from '../task';
 
 
 @Component({
