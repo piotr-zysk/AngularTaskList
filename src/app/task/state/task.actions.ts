@@ -1,7 +1,8 @@
 import { Action } from '@ngrx/store';
 
 export enum TaskActionTypes {
-    ToggleDescriptionVisibility = '[Task] Toggle Descrip[tion Visibility'
+    ToggleDescriptionVisibility = '[Task] Toggle Descrip[tion Visibility',
+    SetCurrentTask = '[Task] Set Current Task'
 }
 
 export class ToggleDescriptionVisibility implements Action {
@@ -10,4 +11,10 @@ export class ToggleDescriptionVisibility implements Action {
     constructor(public payload: boolean) {}
 }
 
-export type TaskActions = ToggleDescriptionVisibility;
+export class SetCurrentTask implements Action {
+    readonly type = TaskActionTypes.SetCurrentTask;
+
+    constructor(public payload: number) {}
+}
+
+export type TaskActions = ToggleDescriptionVisibility | SetCurrentTask;
