@@ -22,7 +22,7 @@ export class TaskListComponent implements OnInit {
   _listFilter = '';
 
   constructor(private taskService: TaskService,
-    private store: Store<fromTask.IState>) {
+              private store: Store<fromTask.IState>) {
     this.listFilter = '';
   }
 
@@ -64,6 +64,7 @@ export class TaskListComponent implements OnInit {
     );
 
     const ESC_KEY = 27;
+    const ENTER_KEY = 13;
     const filterInput = document.getElementById('filterInput') as HTMLInputElement;
 
     const subscription = fromEvent(filterInput, 'keydown')
@@ -72,13 +73,23 @@ export class TaskListComponent implements OnInit {
         if (e.keyCode === ESC_KEY) {
           // filterInput.value = '';
           this.listFilter = '';
+        } else if (e.keyCode === ENTER_KEY) {
+          this.store.dispatch(new taskActions.SetListFilter(this.listFilter));
+          console.log('List filter "'+this._listFilter+'" saved in store');
         }
       });
 
-    this.listFilter = '12';
+
 
     this.store.dispatch(new taskActions.Load());
-    this.store.pipe(select(fromTask.getTasks)).subscribe((tasks: ITask[]) => { this.tasks = tasks; this.listFilter='' });
+    this.store.pipe(select(fromTask.getTasks)).subscribe((tasks: ITask[]) => {
+      this.tasks = tasks;
+      this.filteredTasks = this.listFilter ? this.performFilter(this.listFilter) : this.tasks;
+    });
+
+    this.store.pipe(select(fromTask.getListFilter)).subscribe((filter: string) => {
+      this.listFilter = filter;
+    });
 
   }
 

@@ -6,7 +6,8 @@ const initialState: ITaskState = {
     tasks: [],
     currentTaskId: null,
     error: '',
-    loadTime: new Date(new Date().getTime() - 2 * 24 * 60 * 60 * 1000).toLocaleDateString()
+    loadTime: new Date(new Date().getTime() - 2 * 24 * 60 * 60 * 1000).toLocaleDateString(),
+    listFilter: ''
 };
 
 export function reducer(state: ITaskState = initialState, action): ITaskState {
@@ -32,6 +33,12 @@ export function reducer(state: ITaskState = initialState, action): ITaskState {
                 ...state,
                 tasks: [],
                 error: action.payload
+            };
+
+        case TaskActionTypes.SetListFilter:
+            return {
+                ...state,
+                listFilter: action.payload
             };
 
         default:

@@ -18,5 +18,5 @@ export class TaskEffects {
             map((tasks: ITask[]) => (new taskActions.LoadSuccess(tasks)))
         ))
 
-    )
+    );
 }

@@ -6,7 +6,8 @@ export enum TaskActionTypes {
     SetCurrentTask = '[Task] Set Current Task',
     Load = '[Task] Load',
     LoadSuccess = '[Task] Load Success',
-    LoadFail = '[Task] Load Fail'
+    LoadFail = '[Task] Load Fail',
+    SetListFilter = '[Task] Set listFilter'
 }
 
 export class ToggleDescriptionVisibility implements Action {
@@ -28,14 +29,20 @@ export class Load implements Action {
 export class LoadSuccess implements Action {
     readonly type = TaskActionTypes.LoadSuccess;
 
-    constructor(public payload: ITask[]) {};
+    constructor(public payload: ITask[]) {}
 }
 
 export class LoadFail implements Action {
     readonly type = TaskActionTypes.LoadFail;
 
-    constructor(public payload: string) {};
+    constructor(public payload: string) {}
+}
+
+export class SetListFilter implements Action {
+    readonly type = TaskActionTypes.SetListFilter;
+
+    constructor(public payload: string) {}
 }
 
 
-export type TaskActions = ToggleDescriptionVisibility | SetCurrentTask | Load | LoadSuccess | LoadFail;
+export type TaskActions = ToggleDescriptionVisibility | SetCurrentTask | Load | LoadSuccess | LoadFail | SetListFilter;

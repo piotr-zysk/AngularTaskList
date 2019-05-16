@@ -18,6 +18,7 @@ export interface ITaskState {
     currentTaskId: number;
     error: string;
     loadTime: string;
+    listFilter: string;
 }
 
 export const getTasks = createSelector(
@@ -30,6 +31,10 @@ export const getError = createSelector(
     state => state.error
 );
 
+export const getListFilter = createSelector(
+    getTaskFeatureState,
+    state => state.listFilter
+);
 
 
 export const getDescriptionVisible = createSelector(getTaskFeatureState, state => state.descriptionVisible);
