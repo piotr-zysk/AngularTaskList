@@ -7,7 +7,9 @@ import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 import { StoreModule } from '@ngrx/store';
-import { reducer } from '../state/task.reducer';
+import { reducer } from './state/task.reducer';
+import { EffectsModule } from '@ngrx/effects';
+import { TaskEffects } from './state/task.effects';
 
 
 
@@ -23,7 +25,8 @@ import { reducer } from '../state/task.reducer';
     FormsModule,
     SharedModule,
     ReactiveFormsModule,
-    StoreModule.forFeature('tasks', reducer)
+    StoreModule.forFeature('tasks', reducer),
+    EffectsModule.forFeature([TaskEffects])
   ]
 })
 export class TaskModule { }

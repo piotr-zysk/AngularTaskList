@@ -8,6 +8,7 @@ import { WelcomeComponent } from './home/welcome.component';
 import { TaskModule } from './task/task.module';
 
 import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from 'src/environments/environment.prod';
 
@@ -26,7 +27,8 @@ import { environment } from 'src/environments/environment.prod';
       name: 'TaskList',
       maxAge: 20,
       logOnly: environment.production
-    })
+    }),
+    EffectsModule.forRoot([])
   ],
   providers: [],
   bootstrap: [AppComponent]
