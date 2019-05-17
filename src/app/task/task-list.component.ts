@@ -5,6 +5,8 @@ import { fromEvent } from '../shared/from-event.service';
 import { Store, select } from '@ngrx/store';
 import * as fromTask from './state';
 import * as taskActions from './state/task.actions';
+import { map, filter, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { ajax } from 'rxjs/ajax';
 
 
 @Component({
@@ -67,6 +69,7 @@ export class TaskListComponent implements OnInit {
     const ENTER_KEY = 13;
     const filterInput = document.getElementById('filterInput') as HTMLInputElement;
 
+      /*
     const subscription = fromEvent(filterInput, 'keydown')
       .subscribe((e: KeyboardEvent) => {
         // tslint:disable-next-line: deprecation
@@ -78,8 +81,20 @@ export class TaskListComponent implements OnInit {
           console.log('List filter "'+this._listFilter+'" saved in store');
         }
       });
+      */
 
+    const subscription = fromEvent(filterInput, 'input').pipe(
+        map((e: KeyboardEvent) => (e.target as HTMLTextAreaElement).value),
+        filter(text => text.length > 1 || text.length === 0),
+        debounceTime(500),
+        distinctUntilChanged()
+      );
+    subscription.subscribe(filterText => {
+      this.listFilter=filterInput.value;
+      this.store.dispatch(new taskActions.SetListFilter(this.listFilter));
 
+    }
+      );
 
     this.store.dispatch(new taskActions.Load());
     this.store.pipe(select(fromTask.getTasks)).subscribe((tasks: ITask[]) => {
