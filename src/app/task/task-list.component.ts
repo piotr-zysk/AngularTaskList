@@ -90,7 +90,7 @@ export class TaskListComponent implements OnInit {
         distinctUntilChanged()
       );
     subscription.subscribe(filterText => {
-      this.listFilter=filterInput.value;
+      this.listFilter = filterInput.value;
       this.store.dispatch(new taskActions.SetListFilter(this.listFilter));
 
     }
@@ -104,6 +104,7 @@ export class TaskListComponent implements OnInit {
 
     this.store.pipe(select(fromTask.getListFilter)).subscribe((filter: string) => {
       this.listFilter = filter;
+      filterInput.value = filter;
     });
 
   }

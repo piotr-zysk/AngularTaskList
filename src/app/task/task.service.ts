@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-//import { HttpClient, HttpErrorResponse } from 'selenium-webdriver/http';
+// import { HttpClient, HttpErrorResponse } from 'selenium-webdriver/http';
 import { Observable, throwError } from 'rxjs';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { catchError, tap } from 'rxjs/operators';
@@ -11,12 +11,13 @@ import { SettingsService } from '../shared/settings.service';
   providedIn: 'root'
 })
 export class TaskService {
-  private taskUrl = this.settings.webserverAddress;  //'api/tasks/tasks.json';
+  private taskUrl = this.settings.webserverAddress;  // 'api/tasks/tasks.json';
 
   constructor(private http: HttpClient, private settings: SettingsService) { }
 
   getTasks(): Observable<ITask[]> {
-    //return this.http.get<ITask[]>(this.taskUrl).pipe(tap(data => console.log('All: ' + JSON.stringify(data))), catchError(this.handleError));
+// tslint:disable-next-line: max-line-length
+    // return this.http.get<ITask[]>(this.taskUrl).pipe(tap(data => console.log('All: ' + JSON.stringify(data))), catchError(this.handleError));
     return this.http.get<ITask[]>(this.taskUrl).pipe(catchError(this.handleError));
   }
 
@@ -28,10 +29,10 @@ export class TaskService {
   updateTask(task: ITask) {
 
     const options = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
-    if (task.id > 0)
+    if (task.id > 0) {
       return this.http.put<ITask>(this.taskUrl, task, options)
         .pipe(tap(data => console.log(data)), catchError(this.handleError));
-    else {
+    } else {
       task.id = undefined;
       return this.http.post<ITask>(this.taskUrl, task, options)
         .pipe(tap(data => console.log(data)), catchError(this.handleError));
