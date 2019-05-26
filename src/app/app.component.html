@@ -6,6 +6,6 @@
     <li><a class='nav-link' [routerLink]="['/tasklist']">Task List</a></li>
   </ul>
 </nav>
-<div class='container'>
-  <router-outlet></router-outlet>
+<div class='container' [@routeAnimations]="prepareRoute(outlet)" style="width: 100%;">
+  <router-outlet #outlet="outlet"></router-outlet>
 </div>

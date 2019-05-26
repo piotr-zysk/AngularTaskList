@@ -8,3 +8,8 @@
 #descCheckbox {
     margin: 0 10px 0 30px;
 }
+
+.card {
+    width: 100%;
+    position: 'absolute';
+}
