@@ -29,7 +29,7 @@ export const RouterAnimation =
                     animate('0.5s ease-in', style({ opacity: 0 }))
                 ]),
                 query(':enter', [
-                    animate('0.5s ease-out', style({ opacity: 1 }))
+                    animate('0.5s 0.5s ease-out', style({ opacity: 1 }))
                 ])
             ]),
             query(':enter', animateChild()),
@@ -45,10 +45,10 @@ export const RouterAnimation =
             query(':leave', animateChild()),
             sequence([
                 query(':leave', [
-                    animate('900ms ease-in', style({  opacity: 0 }))
+                    animate('0.5s ease-in', style({  opacity: 0 }))
                 ]),
                 query(':enter', [
-                    animate('900ms ease-out', style({  opacity: 1 }))
+                    animate('0.5s 0.5s ease-out', style({  opacity: 1 }))
                 ])
             ]),
             query(':enter', animateChild()),
