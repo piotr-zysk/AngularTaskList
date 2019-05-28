@@ -8,6 +8,7 @@ import {
     animateChild,
     group,
     sequence,
+    stagger,
     // ...
 } from '@angular/animations';
 
@@ -23,16 +24,15 @@ export const RouterAnimation =
                 })
             ]),
 
-            query(':leave', animateChild()),
-            sequence([
+            group([
                 query(':leave', [
                     animate('0.5s ease-in', style({ opacity: 0 }))
                 ]),
-                query(':enter', [
-                    animate('0.5s 0.5s ease-out', style({ opacity: 1 }))
-                ])
+                query(':enter', [style({ opacity: 0 }), sequence([
+                    animate('0.8s 0.5s ease-out', style({ opacity: 1 }))
+                ])])
             ]),
-            query(':enter', animateChild()),
+
         ]),
         transition('* <=> TaskListPage', [
             style({ position: 'relative' }),
@@ -43,13 +43,13 @@ export const RouterAnimation =
                 })
             ]),
             query(':leave', animateChild()),
-            sequence([
+            group([
                 query(':leave', [
                     animate('0.5s ease-in', style({  opacity: 0 }))
                 ]),
-                query(':enter', [
-                    animate('0.5s 0.5s ease-out', style({  opacity: 1 }))
-                ])
+                query(':enter', [style({ opacity: 0 }), sequence([
+                    animate('0.8s 0.5s ease-out', style({  opacity: 1 }))
+                ])])
             ]),
             query(':enter', animateChild()),
         ])
