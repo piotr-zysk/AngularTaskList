@@ -1,6 +1,7 @@
 import { ITask } from '../task';
 import * as fromRoot from '../../state';
-import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { createFeatureSelector, createSelector, ActionReducerMap } from '@ngrx/store';
+import { EntityState } from '@ngrx/entity';
 import * as fromTasks from './task.reducer';
 
 export interface IState extends fromRoot.IState {
@@ -12,18 +13,26 @@ export interface IState extends fromRoot.IState {
 const getTaskFeatureState = createFeatureSelector<ITaskState>('tasks');
 
 
-export interface ITaskState {
+export interface ITaskState extends EntityState<ITask> {
     descriptionVisible: boolean;
-    tasks: ITask[];
     currentTaskId: number;
     error: string;
     loadTime: string;
     listFilter: string;
 }
 
+/*
+export const reducers: ActionReducerMap<ITaskState> = {
+    tasks: fromTasks.reducer;
+};
+*/
+
+
+
 export const getTasks = createSelector(
     getTaskFeatureState,
-    state => state.tasks
+    fromTasks.selectAllTasks
+    //state => state.tasks
 );
 
 export const getError = createSelector(

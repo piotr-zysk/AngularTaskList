@@ -1,14 +1,18 @@
 import { ITaskState } from '.';
 import { TaskActionTypes } from './task.actions';
+import { EntityAdapter, createEntityAdapter } from '@ngrx/entity';
+import { ITask } from '../task';
 
-const initialState: ITaskState = {
+
+export const adapter: EntityAdapter<ITask> = createEntityAdapter<ITask>();
+
+const initialState: ITaskState = adapter.getInitialState({
     descriptionVisible: false,
-    tasks: [],
     currentTaskId: null,
-    error: '',
+    error: null,
     loadTime: new Date(new Date().getTime() - 2 * 24 * 60 * 60 * 1000).toLocaleDateString(),
     listFilter: ''
-};
+});
 
 export function reducer(state: ITaskState = initialState, action): ITaskState {
 
@@ -21,19 +25,10 @@ export function reducer(state: ITaskState = initialState, action): ITaskState {
             };
 
         case TaskActionTypes.LoadSuccess:
-            return {
-                ...state,
-                tasks: action.payload,
-                error: '',
-                loadTime: Date()
-            };
+            return adapter.addAll(action.payload, {...state, error: '', loadTime: Date()});
 
         case TaskActionTypes.LoadFail:
-            return {
-                ...state,
-                tasks: [],
-                error: action.payload
-            };
+            return adapter.removeAll({...state, error: action.payload});
 
         case TaskActionTypes.SetListFilter:
             return {
@@ -45,3 +40,12 @@ export function reducer(state: ITaskState = initialState, action): ITaskState {
             return state;
     }
 }
+
+
+// get the selectors
+const {
+    selectAll,
+  } = adapter.getSelectors();
+
+// select the array of users
+export const selectAllTasks = selectAll;
