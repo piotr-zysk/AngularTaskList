@@ -32,7 +32,6 @@ export const reducers: ActionReducerMap<ITaskState> = {
 export const getTasks = createSelector(
     getTaskFeatureState,
     fromTasks.selectAllTasks
-    //state => state.tasks
 );
 
 export const getError = createSelector(
@@ -46,4 +45,12 @@ export const getListFilter = createSelector(
 );
 
 
-export const getDescriptionVisible = createSelector(getTaskFeatureState, state => state.descriptionVisible);
+export const getDescriptionVisible = createSelector(
+    getTaskFeatureState,
+    state => state.descriptionVisible
+);
+
+export const selectLoadTime = createSelector(
+    getTaskFeatureState,
+    state => state.loadTime
+);

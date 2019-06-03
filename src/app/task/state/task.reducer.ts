@@ -42,9 +42,10 @@ export function reducer(state: ITaskState = initialState, action): ITaskState {
 }
 
 
+
 // get the selectors
 const {
-    selectAll,
+    selectAll
   } = adapter.getSelectors();
 
 // select the array of users
