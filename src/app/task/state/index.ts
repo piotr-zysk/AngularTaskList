@@ -54,3 +54,9 @@ export const selectLoadTime = createSelector(
     getTaskFeatureState,
     state => state.loadTime
 );
+
+
+export const selectTaskById = createSelector(
+    getTaskFeatureState,
+    (state: ITaskState, props: any) => state.entities[props.taskId]
+);

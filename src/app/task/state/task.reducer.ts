@@ -42,11 +42,14 @@ export function reducer(state: ITaskState = initialState, action): ITaskState {
 }
 
 
+export const getSelectedTaskId = (state: ITaskState) => state.currentTaskId;
 
 // get the selectors
 const {
-    selectAll
+    selectAll,
+    selectIds
   } = adapter.getSelectors();
 
+export const selectTaskIds = selectIds;
 // select the array of users
 export const selectAllTasks = selectAll;

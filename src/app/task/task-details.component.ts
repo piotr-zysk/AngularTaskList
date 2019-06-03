@@ -6,7 +6,8 @@ import { ITask } from './task';
 import { nameDescriptionValidator } from './name-description.directive';
 import { Observable } from 'rxjs';
 import { DialogService } from '../shared/dialog.service';
-
+import * as fromTask from './state';
+import { Store, select } from '@ngrx/store';
 
 @Component({
   selector: 'tl-task-details',
@@ -26,7 +27,8 @@ export class TaskDetailsComponent implements OnInit {
     private taskService: TaskService,
     private router: Router,
     private route: ActivatedRoute,
-    private dialogService: DialogService) { }
+    private dialogService: DialogService,
+    private store: Store<fromTask.IState>) { }
 
   ngOnInit() {
     let id = +this.route.snapshot.paramMap.get('id');
@@ -38,9 +40,19 @@ export class TaskDetailsComponent implements OnInit {
     }
     else {
       this.title = 'Task: ' + id;
+
+
+      this.store.pipe(select(fromTask.selectTaskById, {taskId: id})).subscribe(
+        task => this.initForm(task)
+      );
+
+
+      /*
       this.taskService.getTask(id).subscribe(
         task => this.initForm(task)
       );
+      */
+
     }
     /*
     {
@@ -77,7 +89,7 @@ export class TaskDetailsComponent implements OnInit {
 
   saveTask(value: ITask): void {
     if (this.taskForm.valid) {
-      this.taskService.updateTask(value).subscribe(() => {this.formSaved=true; this.router.navigate(['/tasklist']); });
+      this.taskService.updateTask(value).subscribe(() => { this.formSaved = true; this.router.navigate(['/tasklist']); });
     }
   }
 
