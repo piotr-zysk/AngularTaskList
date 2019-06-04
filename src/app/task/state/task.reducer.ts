@@ -4,6 +4,7 @@ import { EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import { ITask } from '../task';
 
 
+
 export const adapter: EntityAdapter<ITask> = createEntityAdapter<ITask>();
 
 const initialState: ITaskState = adapter.getInitialState({
@@ -35,6 +36,12 @@ export function reducer(state: ITaskState = initialState, action): ITaskState {
                 ...state,
                 listFilter: action.payload
             };
+
+        case TaskActionTypes.UpsertSuccess:
+            return adapter.upsertOne(action.payload, {...state, error: ''});
+
+        case TaskActionTypes.DeleteFromStore:
+            return adapter.removeOne(action.payload.id, state);
 
         default:
             return state;

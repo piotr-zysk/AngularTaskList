@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 import { DialogService } from '../shared/dialog.service';
 import * as fromTask from './state';
 import { Store, select } from '@ngrx/store';
+import * as taskActions from './state/task.actions';
 
 @Component({
   selector: 'tl-task-details',
@@ -33,12 +34,13 @@ export class TaskDetailsComponent implements OnInit {
   ngOnInit() {
     let id = +this.route.snapshot.paramMap.get('id');
 
-    if (id == 0) {
+    if (id === 0) {
       this.title = 'New Task';
+
       let task: ITask = { id: 0, name: '', description: '', done: false };
+
       this.initForm(task);
-    }
-    else {
+    } else {
       this.title = 'Task: ' + id;
 
 
@@ -67,8 +69,10 @@ export class TaskDetailsComponent implements OnInit {
 
   private initForm(task: ITask): void {
 
+    if (!task) {return;}
+
     this.task = task;
-    let id = new FormControl(this.task.id)
+    let id = new FormControl(this.task.id);
     let name = new FormControl(this.task.name, Validators.required);
     let description = new FormControl(this.task.description, Validators.required);
     let done = new FormControl(this.task.done);
@@ -89,13 +93,23 @@ export class TaskDetailsComponent implements OnInit {
 
   saveTask(value: ITask): void {
     if (this.taskForm.valid) {
-      this.taskService.updateTask(value).subscribe(() => { this.formSaved = true; this.router.navigate(['/tasklist']); });
+      console.log(value);
+      this.store.dispatch(new taskActions.UpsertOne(value));
+
+      this.formSaved = true;
+      this.router.navigate(['/tasklist']);
+
+      //this.taskService.updateTask(value).subscribe(() => { this.formSaved = true; this.router.navigate(['/tasklist']); });
     }
   }
 
   deleteTask(value: number): void {
-    if (window.confirm('Are you sure you want to delete this task?')) {
-      this.taskService.deleteTask(value).subscribe(() => this.router.navigate(['/tasklist']));
+    if (window.confirm('Are you sure you want to delete this task? id:' + value)) {
+
+      this.store.dispatch(new taskActions.DeleteFromDB({id: value}));
+      this.formSaved = true;
+      this.router.navigate(['/tasklist']);
+      //this.taskService.deleteTask(value).subscribe(() => this.router.navigate(['/tasklist']));
     }
   }
 

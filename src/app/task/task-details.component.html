@@ -20,7 +20,7 @@
     <label class="form-check-label" for="done">Done</label>
   </div>
   <button type="submit" class="btn btn-primary" [disabled]="!this.taskForm.valid || !this.taskForm.dirty">Save</button>
-  <button type="button" *ngIf="this.task.id>0" class="btn btn-danger" (click)="deleteTask(this.task.id)">Delete</button>
+  <button type="button" *ngIf="this.task?.id>0" class="btn btn-danger" (click)="deleteTask(this.task?.id)">Delete</button>
 </form>
 
 <div class='card-footer'>

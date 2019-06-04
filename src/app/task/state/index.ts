@@ -60,3 +60,8 @@ export const selectTaskById = createSelector(
     getTaskFeatureState,
     (state: ITaskState, props: any) => state.entities[props.taskId]
 );
+
+export const selectMaxId = createSelector(
+    getTaskFeatureState,
+    state => Math.max.apply(null, state.ids)
+);

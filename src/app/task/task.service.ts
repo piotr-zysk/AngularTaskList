@@ -26,7 +26,7 @@ export class TaskService {
     return this.http.get<ITask>(this.taskUrl + '/' + id).pipe(catchError(this.handleError));
   }
 
-  updateTask(task: ITask) {
+  upsertTask(task: ITask): Observable<ITask> {
 
     const options = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     if (task.id > 0) {
@@ -35,15 +35,15 @@ export class TaskService {
     } else {
       task.id = undefined;
       return this.http.post<ITask>(this.taskUrl, task, options)
-        .pipe(tap(data => console.log(data)), catchError(this.handleError));
+        .pipe(catchError(this.handleError));
     }
   }
 
 
   deleteTask(id: number) {
-
+    //console.log(id);
     return this.http.delete(this.taskUrl + '/' + id)
-      .pipe(tap(data => console.log(data)), catchError(this.handleError));
+      .pipe(catchError(this.handleError));
   }
 
 
