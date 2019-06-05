@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { TaskService } from '../task.service';
 import * as taskActions from './task.actions';
-import { mergeMap, map, tap, withLatestFrom, filter, switchMap } from 'rxjs/operators';
+import { mergeMap, map, tap, withLatestFrom, filter, switchMap, catchError, retry } from 'rxjs/operators';
 import { ITask } from '../task';
 import { Store } from '@ngrx/store';
 import * as fromTask from '.';
 import { Action } from 'rxjs/internal/scheduler/Action';
+import { of, EMPTY } from 'rxjs';
 
 
 @Injectable()
@@ -25,10 +26,12 @@ export class TaskEffects {
                 return this.taskService.upsertTask(action.payload)
                     .pipe(
                         //tap((task) => console.log(task)),
-                        map((task: ITask) => new taskActions.ForceLoad())              //UpsertSuccess(action.payload))
-                    )
+                        map((task: ITask) => new taskActions.ForceLoad()));
             }
-            ));
+            ),
+
+
+            );
 
 
     @Effect()
@@ -45,6 +48,7 @@ export class TaskEffects {
             }
             ));
 
+
     @Effect()
     loadTasks$ = this.actions$
         .pipe(
@@ -57,7 +61,10 @@ export class TaskEffects {
             mergeMap(() => {
                 return this.taskService.getTasks()
                     .pipe(tap(() => console.log('Task list loaded from DB at ' + new Date().toISOString().slice(0, 19))),
-                        map((tasks: ITask[]) => (new taskActions.LoadSuccess(tasks))));
+                        map((tasks: ITask[]) => (new taskActions.LoadSuccess(tasks))),
+
+                        catchError((e) => of(new taskActions.LoadFail(e)))
+                        );
             })
 
         );

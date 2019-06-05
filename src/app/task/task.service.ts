@@ -1,17 +1,22 @@
 import { Injectable } from '@angular/core';
 // import { HttpClient, HttpErrorResponse } from 'selenium-webdriver/http';
-import { Observable, throwError, pipe, timer, zip, range } from 'rxjs';
+import { Observable, throwError, pipe, timer, zip, range, concat, of } from 'rxjs';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { catchError, tap, retry, retryWhen, map, mergeMap } from 'rxjs/operators';
+import { catchError, tap, retry, retryWhen, map, mergeMap, concatMap, take } from 'rxjs/operators';
 import { ITask } from './task';
 import { SettingsService } from '../shared/settings.service';
 
 function backoff(maxTries, ms) {
   return pipe(
+    tap(() => throwError('oops')),
     retryWhen(attempts => zip(range(1, maxTries), attempts)
       .pipe(
         map(([i]) => i * i),
-        mergeMap(i =>  timer(i * ms))
+        mergeMap(i =>  {
+            if (i === maxTries * maxTries) {
+                return throwError('Unable to load tasks. Check connection to the server.')
+              };
+              return timer(i * ms);} )
       )
     )
   );
@@ -29,7 +34,11 @@ export class TaskService {
   getTasks() {
 // tslint:disable-next-line: max-line-length
     // return this.http.get<ITask[]>(this.taskUrl).pipe(tap(data => console.log('All: ' + JSON.stringify(data))), catchError(this.handleError));
-    return this.http.get<ITask[]>(this.taskUrl).pipe(backoff(3, 250));
+    return this.http.get<ITask[]>(this.taskUrl).pipe(
+      backoff(3, 250),
+      take(2),
+      catchError(this.handleErrorAny)
+      );      //catchError(this.handleError));
   }
 
   getTask(id: number): Observable<ITask> {
@@ -56,6 +65,11 @@ export class TaskService {
       .pipe(catchError(this.handleError));
   }
 
+  private handleErrorAny(errorMessage: string)
+  {
+    //console.error(errorMessage);
+    return throwError(errorMessage);
+  }
 
   private handleError(err: HttpErrorResponse) {
     // in a real world app, we may send the server to some remote logging infrastructure

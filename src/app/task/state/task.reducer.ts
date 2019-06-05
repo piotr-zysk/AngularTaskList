@@ -29,6 +29,7 @@ export function reducer(state: ITaskState = initialState, action): ITaskState {
             return adapter.addAll(action.payload, {...state, error: '', loadTime: Date()});
 
         case TaskActionTypes.LoadFail:
+            console.error(action.payload);
             return adapter.removeAll({...state, error: action.payload});
 
         case TaskActionTypes.SetListFilter:
