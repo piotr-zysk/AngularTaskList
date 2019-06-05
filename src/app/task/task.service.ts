@@ -1,11 +1,21 @@
 import { Injectable } from '@angular/core';
 // import { HttpClient, HttpErrorResponse } from 'selenium-webdriver/http';
-import { Observable, throwError } from 'rxjs';
+import { Observable, throwError, pipe, timer, zip, range } from 'rxjs';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, tap, retry, retryWhen, map, mergeMap } from 'rxjs/operators';
 import { ITask } from './task';
 import { SettingsService } from '../shared/settings.service';
 
+function backoff(maxTries, ms) {
+  return pipe(
+    retryWhen(attempts => zip(range(1, maxTries), attempts)
+      .pipe(
+        map(([i]) => i * i),
+        mergeMap(i =>  timer(i * ms))
+      )
+    )
+  );
+  }
 
 @Injectable({
   providedIn: 'root'
@@ -15,12 +25,12 @@ export class TaskService {
 
   constructor(private http: HttpClient, private settings: SettingsService) { }
 
-  getTasks(): Observable<ITask[]> {
+
+  getTasks() {
 // tslint:disable-next-line: max-line-length
     // return this.http.get<ITask[]>(this.taskUrl).pipe(tap(data => console.log('All: ' + JSON.stringify(data))), catchError(this.handleError));
-    return this.http.get<ITask[]>(this.taskUrl).pipe(catchError(this.handleError));
+    return this.http.get<ITask[]>(this.taskUrl).pipe(backoff(3, 250));
   }
-
 
   getTask(id: number): Observable<ITask> {
     return this.http.get<ITask>(this.taskUrl + '/' + id).pipe(catchError(this.handleError));
